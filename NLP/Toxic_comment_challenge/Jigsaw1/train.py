@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+import os
 
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -31,6 +32,15 @@ X_train = pad_sequences(list_tokenizer_train, maxlen = maxlen)
 
 # Calling model creation
 model = model.create_model()
+
+# Check if trainig weight exists
+exists = os.path.isfile('trained_model/keras_model_weights.h5')
+
+if exists:
+    model.load_weights('trained_model/*.h5')
+    print('Pretrained weights loaded')
+else:
+    print('Training from scratch')
 
 # Running model for 10 epochs 
 model.fit(X_train, y, batch_size=batch_size, epochs=epochs, validation_split=0.1)
