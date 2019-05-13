@@ -33,7 +33,7 @@ X_test = pad_sequences(list_tokenizer_test, maxlen = maxlen)
 model = md.create_model()
 
 # Load saved model weights
-model.load_weights('keras_model_weights.h5')
+model.load_weights('trained_model/keras_model_weights.h5')
 print('Trained weights loaded')
 
 print('Running predictions on test data')

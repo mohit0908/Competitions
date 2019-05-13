@@ -36,5 +36,5 @@ model = model.create_model()
 model.fit(X_train, y, batch_size=batch_size, epochs=epochs, validation_split=0.1)
 
 # Save model weights
-model.save_weights('keras_model_weights.h5')
+model.save_weights('trained_model/keras_model_weights.h5')
 print('Model weights loaded')
