@@ -37,7 +37,7 @@ model = model.create_model()
 exists = os.path.isfile('trained_model/keras_model_weights.h5')
 
 if exists:
-    model.load_weights('trained_model/*.h5')
+    model.load_weights('trained_model/keras_model_weights.h5')
     print('Pretrained weights loaded')
 else:
     print('Training from scratch')
