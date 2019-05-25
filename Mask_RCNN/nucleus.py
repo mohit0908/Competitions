@@ -185,8 +185,8 @@ class NucleusDataset(utils.Dataset):
             image_ids = os.listdir(dataset_dir)
             print('Listdir results:', image_ids)
             print('Total training samples:', len(image_ids))
-            if subset == "train":
-                image_ids = list(set(image_ids) - set(VAL_IMAGE_IDS))
+            # if subset == "train":
+            #     image_ids = list(set(image_ids) - set(VAL_IMAGE_IDS))
 
         # Add images
         for image_id in image_ids:
@@ -239,7 +239,7 @@ def train(model, dataset_dir, subset):
 
     # Validation dataset
     dataset_val = NucleusDataset()
-    dataset_val.load_nucleus(dataset_dir, "val")
+    dataset_val.load_nucleus(dataset_dir, "stage1_test")
     dataset_val.prepare()
 
     # Image augmentation
