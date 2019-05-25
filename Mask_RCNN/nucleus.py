@@ -209,7 +209,7 @@ class NucleusDataset(utils.Dataset):
         # Read mask files from .png image
         mask = []
         # for f in next(os.walk(mask_dir))[2]:
-        for f in os.listdir(mast_dir):
+        for f in os.listdir(mask_dir):
             if f.endswith(".png"):
                 m = skimage.io.imread(os.path.join(mask_dir, f)).astype(np.bool)
                 mask.append(m)
