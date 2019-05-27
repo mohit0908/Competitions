@@ -7,12 +7,10 @@ import numpy as np
 import create_model as cm
 
 
-def inference(path):
+def inference(path, weights_file):
 
-	model = cm.create_model()
+	model = cm.create_model(weights_file)
 	
-	print('Model loaded from checkpoint')
-
 	t1 = time.time()
 	counter = 0
 	for files in os.listdir(path):
@@ -33,13 +31,14 @@ if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--inference_data', help = 'path to test images')
+	parser.add_argument('--checkpoint', help = 'pretrained weights file', default = 'None')
 
 	args = vars(parser.parse_args())
 
 
-	inference(args['inference_data'])
+	inference(args['inference_data'], args['checkpoint'])
 
 
 # Usage:
 
-# python inference.pt --inference_data <inference data path>
+# python inference.pt --inference_data <inference data path> --checkpoint <weights file if any>

@@ -7,7 +7,7 @@ checkpoint_path = 'ckpt/*.hdf5'
 
 
 
-def create_model():
+def create_model(checkpoint_file):
 
         model = tf.keras.applications.ResNet50(include_top = True, weights ='imagenet')
 
@@ -20,9 +20,12 @@ def create_model():
                 layer.trainable  = False
 
         # Load old weights if present
-        if os.path.isfile(checkpoint_path):
-            custom_resnet_model.load_weights(checkpoint_path)
-            print('Pretrained weights loaded from ckpt')
+        try:
+	        if os.path.isfile(checkpoint_file):
+	            custom_resnet_model.load_weights(checkpoint_file)
+	            print('Pretrained weights loaded from ckpt')
+	    except:
+	    	pass
 
         custom_resnet_model.compile(optimizer = 'adadelta',loss = 'categorical_crossentropy',metrics = ['accuracy'])
         print('Custom resnet model created')

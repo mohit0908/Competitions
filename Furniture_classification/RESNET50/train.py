@@ -26,18 +26,18 @@ def batch_gen(train_path, valid_path,batch_size):
     return train_batches, valid_batches
 
 
-def model_train(train_path, valid_path, size, batch_size, epochs):
+def model_train(train_path, valid_path, size, batch_size, epochs, weights_file):
 
         if not os.path.exists('ckpt'):
             os.makedirs('ckpt')
 
         train_batches, valid_batches = batch_gen(train_path, valid_path, batch_size)
 
-        custom_resnet_model = cm.create_model()
+        custom_resnet_model = cm.create_model(weights_file)
         
         # Define callbacks
         filepath = 'ckpt/weights_{epoch:02d}_{val_loss:.2f}.hdf5'
-        checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=True, mode='auto', period=1)
+        checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=False, save_weights_only=True, mode='auto', period=1)
         tensorboard = tf.keras.callbacks.TensorBoard(log_dir = './tensorboard_logs', histogram_freq=0, write_graph = True, write_images = False)
         csvlogger = tf.keras.callbacks.CSVLogger('log.csv', append = True, separator = ';')
         callback_list = [checkpoint, tensorboard, csvlogger]
@@ -57,13 +57,13 @@ if __name__ == '__main__':
         parser.add_argument('--size', help = 'total number of training samples', type = int)
         parser.add_argument('--batch', help = 'number of samples per training batch', default = 64, type = int)
         parser.add_argument('--epochs', help = 'number of epochs for training', default = 5, type = int)
-
+        parser.add_argument('--checkpoint', help = 'pretrained weights file', default = 'None')
 
         args = vars(parser.parse_args())
 
-        model_train(args['train_path'],args['valid_path'], args['size'], args['batch'], args['epochs'])
+        model_train(args['train_path'],args['valid_path'], args['size'], args['batch'], args['epochs'], args['checkpoint'])
 
 
 # Usage 
 # python3 train.py --train_path <path of training data(data separated in class folders)> --valid_path <path of validation data(data separated in class folders)> 
-# --size <dataset size> --batch <batch_size> --epochs <no_of_epochs> 
+# --size <dataset size> --batch <batch_size> --epochs <no_of_epochs> --checkpoint <weights file if any>
