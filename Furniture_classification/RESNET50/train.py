@@ -4,7 +4,7 @@ from tqdm import tqdm
 import numpy as np
 import argparse
 import tensorflow as tf
-from tf.keras.callbacks import ModelCheckpoint, TensorBoard, CSVLogger
+# from tensorflow.keras.callbacks import ModelCheckpoint, TensorBoard, CSVLogger
 import create_model as cm
 
 # Training parameters
@@ -28,17 +28,20 @@ def batch_gen(train_path, valid_path,batch_size):
 
 def model_train(train_path, valid_path, size, batch_size, epochs):
 
+        if not os.path.exists('ckpt'):
+            os.makedirs('ckpt')
+
         train_batches, valid_batches = batch_gen(train_path, valid_path, batch_size)
 
         custom_resnet_model = cm.create_model()
         
         # Define callbacks
         filepath = 'ckpt/weights_{epoch:02d}_{val_loss:.2f}.hdf5'
-        checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=True, mode='auto', period=1)
-        tensorboard = TensorBoard(log_dir = './tensorboard_logs', histogram_freq=0, write_graph = True, write_images = False)
-        csvlogger = CSVLogger('log.csv', append = True, separator = ';')
+        checkpoint = tf.keras.callbacks.ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=True, mode='auto', period=1)
+        tensorboard = tf.keras.callbacks.TensorBoard(log_dir = './tensorboard_logs', histogram_freq=0, write_graph = True, write_images = False)
+        csvlogger = tf.keras.callbacks.CSVLogger('log.csv', append = True, separator = ';')
         callback_list = [checkpoint, tensorboard, csvlogger]
-
+        print('Callbacks Initiated')
 
         t1 = time.time()
         custom_resnet_model.fit_generator(train_batches,validation_data = valid_batches, steps_per_epoch = size//batch_size, epochs = epochs, callbacks=callback_list)
@@ -58,7 +61,7 @@ if __name__ == '__main__':
 
         args = vars(parser.parse_args())
 
-        model_train(args['train_path'],args['valid_path'] args['size'], args['batch'], args['epochs'])
+        model_train(args['train_path'],args['valid_path'], args['size'], args['batch'], args['epochs'])
 
 
 # Usage 
