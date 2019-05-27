@@ -4,11 +4,12 @@ import tensorflow as tf
 import os
 import cv2
 import numpy as np
+import create_model as cm
 
 
 def inference(path):
 
-	model = tf.keras.models.load_model('./ckpt/resnet_model.h5')
+	model = cm.create_model()
 	
 	print('Model loaded from checkpoint')
 
@@ -31,9 +32,14 @@ def inference(path):
 if __name__ == '__main__':
 
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--data', help = 'path to test images')
+	parser.add_argument('--inference_data', help = 'path to test images')
 
 	args = vars(parser.parse_args())
 
 
-	inference(args['data'])
+	inference(args['inference_data'])
+
+
+# Usage:
+
+# python inference.pt --inference_data <inference data path>

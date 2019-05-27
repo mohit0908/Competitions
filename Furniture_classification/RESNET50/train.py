@@ -4,6 +4,8 @@ from tqdm import tqdm
 import numpy as np
 import argparse
 import tensorflow as tf
+from tf.keras.callbacks import ModelCheckpoint, TensorBoard, CSVLogger
+import create_model as cm
 
 # Training parameters
 
@@ -19,42 +21,29 @@ def batch_gen(train_path, valid_path,batch_size):
 
     valid_batches = tf.keras.preprocessing.image.ImageDataGenerator().flow_from_directory(valid_path,
                                                                          target_size = (img_size,img_size),
-                                                                         batch_size = 10,
+                                                                         batch_size = batch_size,
                                                                          classes = classes)
-
     return train_batches, valid_batches
-
-
-def create_model():
-
-        image_input = tf.keras.layers.Input(shape=(224,224,3))
-        model = tf.keras.applications.ResNet50(include_top = True, weights ='imagenet')
-
-        num_classes = len(classes)
-
-        last_layer = model.layers[-2].output # grabing 2nd last layer output
-        out = tf.keras.layers.Dense(num_classes, activation = 'softmax', name = 'output')(last_layer)
-        custom_resnet_model = tf.keras.models.Model(inputs = model.input, outputs = out)
-        for layer in custom_resnet_model.layers[:-2]:
-                layer.trainable  = False
-
-        custom_resnet_model.compile(optimizer = 'adadelta',loss = 'categorical_crossentropy',metrics = ['accuracy'])
-        print('Custom resnet model created')
-
-        return custom_resnet_model
 
 
 def model_train(train_path, valid_path, size, batch_size, epochs):
 
         train_batches, valid_batches = batch_gen(train_path, valid_path, batch_size)
 
-        custom_resnet_model = create_model()
+        custom_resnet_model = cm.create_model()
+        
+        # Define callbacks
+        filepath = 'ckpt/weights_{epoch:02d}_{val_loss:.2f}.hdf5'
+        checkpoint = ModelCheckpoint(filepath, monitor='val_loss', verbose=1, save_best_only=True, save_weights_only=True, mode='auto', period=1)
+        tensorboard = TensorBoard(log_dir = './tensorboard_logs', histogram_freq=0, write_graph = True, write_images = False)
+        csvlogger = CSVLogger('log.csv', append = True, separator = ';')
+        callback_list = [checkpoint, tensorboard, csvlogger]
+
+
         t1 = time.time()
-        custom_resnet_model.fit_generator(train_batches,validation_data = valid_batches, steps_per_epoch = size//batch_size, epochs = epochs)
+        custom_resnet_model.fit_generator(train_batches,validation_data = valid_batches, steps_per_epoch = size//batch_size, epochs = epochs, callbacks=callback_list)
         t2 = time.time()
         print('Model trained. Time taken per epoch:', (t2-t1)/epochs)
-        custom_resnet_model.save('./ckpt/resnet_model.h5')
-        print('Model saved')
 
 
 
