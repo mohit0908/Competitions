@@ -105,3 +105,4 @@ venv.bak/
 
 # ignore folders
 /Furniture_classification/dataset
+/Furniture_classification/dataset.tar.gz
