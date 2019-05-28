@@ -3,7 +3,6 @@ import os
 
 
 classes = ['chairs', 'curtains','sofas','wardrobes']
-checkpoint_path = 'ckpt/*.hdf5'
 
 
 
@@ -20,12 +19,13 @@ def create_model(checkpoint_file):
                 layer.trainable  = False
 
         # Load old weights if present
+        print('Exists:', os.path.isfile(checkpoint_file))
         try:
-	        if os.path.isfile(checkpoint_file):
-	            custom_resnet_model.load_weights(checkpoint_file)
-	            print('Pretrained weights loaded from ckpt')
-	    except:
-	    	pass
+            if os.path.isfile(checkpoint_file):
+                custom_resnet_model.load_weights(checkpoint_file)
+                print('Pretrained weights loaded from ckpt')
+        except:
+            pass
 
         custom_resnet_model.compile(optimizer = 'adadelta',loss = 'categorical_crossentropy',metrics = ['accuracy'])
         print('Custom resnet model created')
