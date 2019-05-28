@@ -105,6 +105,5 @@ venv.bak/
 
 # ignore folders
 /Furniture_classification/dataset
-/Furniture_classification/dataset.tar.gz
-/Furniture_classification/RESNET50/ckpt
-/Furniture_classification/Mobilenet/ckpt
+# /Furniture_classification/RESNET50/ckpt
+# /Furniture_classification/Mobilenet/ckpt

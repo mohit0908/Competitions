@@ -10,14 +10,17 @@ from selenium import webdriver
 
 # Make folder structure for scraping data
 
+path_list = ['dataset/original/chairs', 'dataset/original/wardrobes', 'dataset/original/curtains','dataset/original/sofas']
+web_links = ['https://www.ikea.com/in/en/search/products/?q=chairs', 'https://www.ikea.com/in/en/search/products/?q=wardrobes', 
+				'https://www.ikea.com/in/en/search/products/?q=curtains','https://www.ikea.com/in/en/search/products/?q=sofas']
+
+
 def makedirs(path):
 	if not os.path.exists(path):
 		os.makedirs(path)
 		print('{} Created'.format(path))
 
-path_list = ['dataset/original/chairs', 'dataset/original/wardrobes', 'dataset/original/curtains','dataset/original/sofas']
-web_links = ['https://www.ikea.com/in/en/search/products/?q=chairs', 'https://www.ikea.com/in/en/search/products/?q=wardrobes', 
-				'https://www.ikea.com/in/en/search/products/?q=curtains','https://www.ikea.com/in/en/search/products/?q=sofas']
+
 
 
 def download_images(image_url, save_dir):

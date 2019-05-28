@@ -31,3 +31,4 @@ def create_model(checkpoint_file):
         print('Custom resnet model created')
 
         return custom_resnet_model
+

@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 import create_model as cm
 
+classes = ['chairs', 'curtains','sofas','wardrobes']
 
 def inference(path, weights_file):
 
@@ -18,7 +19,8 @@ def inference(path, weights_file):
 		img = cv2.resize(img, (224,224))
 		img = np.expand_dims(img, 0)
 		prediction = model.predict(img)
-		print(files, prediction)
+		prediction_label = classes[np.argmax(prediction)]
+		print(files, prediction_label)
 		counter += 1
 
 	t2 = time.time()

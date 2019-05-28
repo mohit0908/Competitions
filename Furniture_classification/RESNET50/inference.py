@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 import create_model as cm
 
+classes = ['chairs', 'curtains','sofas','wardrobes']
 
 def inference(path, weights_file):
 
@@ -18,7 +19,8 @@ def inference(path, weights_file):
 		img = cv2.resize(img, (224,224))
 		img = np.expand_dims(img, 0)
 		prediction = model.predict(img)
-		print(files, prediction)
+		prediction_label = classes[np.argmax(prediction)]
+		print(files, prediction_label)
 		counter += 1
 
 	t2 = time.time()
@@ -41,4 +43,7 @@ if __name__ == '__main__':
 
 # Usage:
 
-# python inference.pt --inference_data <inference data path> --checkpoint <weights file if any>
+# python inference.py --inference_data <inference data path> --checkpoint <weights file if any>
+
+# E.g.
+# python3 inference.py --inference_data ../dataset/augmented/validation/curtains --checkpoint ckpt/weights_09_1.17.hdf5

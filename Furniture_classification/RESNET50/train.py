@@ -67,3 +67,6 @@ if __name__ == '__main__':
 # Usage 
 # python3 train.py --train_path <path of training data(data separated in class folders)> --valid_path <path of validation data(data separated in class folders)> 
 # --size <dataset size> --batch <batch_size> --epochs <no_of_epochs> --checkpoint <weights file if any>
+
+# E.g.
+# python3 train.py --train_path ../dataset/augmented/training --valid_path ../dataset/augmented/validation --size 7600 --batch 64 --epochs 10 --checkpoint ckpt/weights_03_0.19.hdf5

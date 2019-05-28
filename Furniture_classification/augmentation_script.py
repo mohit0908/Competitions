@@ -2,6 +2,9 @@ import cv2
 import os
 
 
+master_path = ['dataset/original/training/chairs', 'dataset/original/training/curtains', 'dataset/original/training/sofas', 'dataset/original/training/wardrobes']
+output_path = ['dataset/augmented/chairs', 'dataset/augmented/curtains', 'dataset/augmented/sofas', 'dataset/augmented/wardrobes']
+
 def augment_func(image_array, filename, output_path):
 
     global_counter = 0
@@ -57,9 +60,6 @@ def augment_func(image_array, filename, output_path):
 
         #         global_counter += 1
         
-
-master_path = ['dataset/original/training/chairs', 'dataset/original/training/curtains', 'dataset/original/training/sofas', 'dataset/original/training/wardrobes']
-output_path = ['dataset/augmented/chairs', 'dataset/augmented/curtains', 'dataset/augmented/sofas', 'dataset/augmented/wardrobes']
 
 for index in range(1,4):
     for img in os.listdir(master_path[index]):
