@@ -47,4 +47,4 @@ File description
 	6. ckpt
 		This contains weights file for inference
 	7. log.csv
-		This file is created while doing trainig and contains details about training, validation loss and accuracy
+		This file is created while doing trainig and contains details about training, validation --> loss and accuracy

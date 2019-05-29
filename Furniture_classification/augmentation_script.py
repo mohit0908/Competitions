@@ -1,9 +1,10 @@
 import cv2
 import os
+from tqdm import tqdm
 
 
-master_path = ['dataset/original/training/chairs', 'dataset/original/training/curtains', 'dataset/original/training/sofas', 'dataset/original/training/wardrobes']
-output_path = ['dataset/augmented/chairs', 'dataset/augmented/curtains', 'dataset/augmented/sofas', 'dataset/augmented/wardrobes']
+master_path = ['dataset/original/chairs', 'dataset/original/curtains', 'dataset/original/sofas', 'dataset/original/wardrobes']
+output_path = ['dataset/augmented/training/chairs', 'dataset/augmented/training/curtains', 'dataset/augmented/training/sofas', 'dataset/augmented/training/wardrobes']
 
 def augment_func(image_array, filename, output_path):
 
@@ -13,13 +14,15 @@ def augment_func(image_array, filename, output_path):
 
     # Writing base image to augmentation directory
 
-    cv2.imwrite(os.path.join(output_path, filename+'.jpg'), image_array)
+    written_image = cv2.resize(image_array, (224, 224))
+    cv2.imwrite(os.path.join(output_path, filename+'.jpg'), written_image)
 
     # Performing augmentation on mislabelled images            
     for value in label: # 1 augmentation
         if value == 'gray':            
             image = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
             file = os.path.join(output_path, str(filename) + '#' + str(global_counter) +'.jpg')
+            image = cv2.resize(image, (224, 224))
             cv2.imwrite(file, image)
             global_counter +=  1
 
@@ -30,6 +33,7 @@ def augment_func(image_array, filename, output_path):
 
                 image_array[:,:,index] = image_array[:,:,index] - lst[index]
                 file = os.path.join(output_path, str(filename) + '#' + str(global_counter) + '.jpg')
+                image_array = cv2.resize(image_array, (224, 224))
                 cv2.imwrite(file, image_array)
 
                 global_counter += 1
@@ -38,6 +42,7 @@ def augment_func(image_array, filename, output_path):
             for k in noise_kernel:
                 image = cv2.GaussianBlur(image_array, (k,k), 5)
                 file = os.path.join(output_path, str(filename) + '#' + str(global_counter) + '.jpg')
+                image = cv2.resize(image, (224, 224))
                 cv2.imwrite(file, image)
                 global_counter += 1
 
@@ -48,6 +53,7 @@ def augment_func(image_array, filename, output_path):
                 img_dim[:,:,0] = img_dim[:,:,0] * dim[i]
                 img_dim = cv2.cvtColor(img_dim, cv2.COLOR_YCR_CB2BGR)
                 file = os.path.join(output_path, str(filename) + '#' + str(global_counter) +'.jpg')
+                img_dim = cv2.resize(img_dim, (224, 224))
                 cv2.imwrite(file, img_dim)
                 global_counter += 1
 
@@ -61,11 +67,13 @@ def augment_func(image_array, filename, output_path):
         #         global_counter += 1
         
 
-for index in range(1,4):
-    for img in os.listdir(master_path[index]):
+for index in range(len(master_path)):
+    if not os.path.exists(output_path[index]):
+        os.makedirs(output_path[index])
+    for img in tqdm(os.listdir(master_path[index])):
         if img.lower().endswith('.jpg'):
             image_array = cv2.imread(os.path.join(os.getcwd(),master_path[index],img))
             augment_func(image_array, img.split('.')[0], output_path[index])
-            print('Processed {} Image'.format(img))
+            # print('Processed {} Image'.format(img))
     print('************************************Processed {} dataset*********************************************'.format(master_path[index]))
 
