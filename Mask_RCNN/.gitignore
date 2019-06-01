@@ -1,8 +1,8 @@
 # Data files and directories common in repo root
-datasets/
+nuclei_datasets/
 logs/
 *.h5
-results/
+# results/
 temp/
 test/
 

@@ -4,7 +4,7 @@ Although dataset used to train on nuclei dataset which can be downloaded at :
 	https://drive.google.com/open?id=19HTlerF4LD_06GUc9-ckhVvunryY4duP
 
 Trained weights can be downloaded from here:
-	https://drive.google.com/open?id=1-0XIcLdHGJyDEozY3WvK5JIBBpDACy-e
+	https://drive.google.com/open?id=14GfCZEFv5jlu9WDwmOAOHJFWEIAyFNtA
 
 	Model was trained for 25 epochs. So weights file would contain 4 GB worth of weights. Download accordingly
 
