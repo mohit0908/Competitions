@@ -14,3 +14,5 @@ Weights can be downloaded from gdrive links or network can be trained from scrat
 
 ## Task 2: Mask RCNN 
 #### This folder contains code for training Mask RCNN for image segmantation tasks. 
+
+All the relevant details are mentioned in folder's readme itself
