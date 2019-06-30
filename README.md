@@ -1,6 +1,6 @@
 # Competitions
 
-This repository contains two example tasks.
+This repository contains two sample tasks.
 
 ## Task 1:
 1. Scrape data from Ikea website from four categories.
