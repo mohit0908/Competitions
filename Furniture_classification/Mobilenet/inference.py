@@ -43,4 +43,5 @@ if __name__ == '__main__':
 
 # Usage:
 
-# python inference.pt --inference_data <inference data path> --checkpoint <weights file if any>
+# python inference.py --inference_data <inference data path> --checkpoint <weights file if any>
+# E.g python inference.py --inference_data ../dataset/augmented/validation/chairs --checkpoint ckpt/weights.hdf5
